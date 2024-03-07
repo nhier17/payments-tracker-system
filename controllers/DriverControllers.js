@@ -31,7 +31,7 @@ const getAllDrivers = async(req, res) => {
 
 //get driver by id
 
-const getDriverById = async(req, res) => {
+const getSingleDriver = async(req, res) => {
     try {
         const { id: driverId } = req.params;
         const driver = await Driver.findById(driverId);
@@ -54,7 +54,7 @@ const updateDriver = async(req, res) => {
     try {
         const { email,name } = req.body;
         if (!email || !name) {
-            throw new CustomError.BadRequestError('Email and name are required');
+            throw new CustomError.BadRequest('Email and name are required');
         }
         const driver = await Driver.findOne({_id: req.driver.driverId});
        driver.email = email;
@@ -80,3 +80,12 @@ const deleteDriver = async(req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({error: 'Failed to delete driver'});
     }
 };
+
+module.exports = {
+    registerDriver,
+    getAllDrivers,
+    getSingleDriver,
+    currentDriver,
+    updateDriver,
+    deleteDriver
+}

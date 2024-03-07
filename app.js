@@ -8,6 +8,7 @@ const connectDB = require('./db/connect-db');
 
 //routes
 const paymentRoutes = require('./routes/Payments');
+const driverRoutes = require('./routes/Driver');
 
 app.use(express.json());
 
@@ -16,6 +17,7 @@ app.get('/', (req,res )=> {
 });
 //routes
 app.use('/api/payments',paymentRoutes);
+app.use('/api/driver',driverRoutes);
 
 const port = process.env.PORT || 8000;
 const start = async () => {

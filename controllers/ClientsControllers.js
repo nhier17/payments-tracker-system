@@ -7,7 +7,7 @@ const CustomError = require('../errors');
 const registerClients = async(req, res ) => {
     try {
         const { name, email, password } = req.body;
-        const client = new Driver({
+        const client = new Client({
             name,
             email,
             password
@@ -48,7 +48,7 @@ const currentClient = async (client) => {
     res.status(StatusCodes.OK).json({client: req.client});
 };
 
-//update clien
+//update client
 
 const updateClient = async(req, res) => {
     try {

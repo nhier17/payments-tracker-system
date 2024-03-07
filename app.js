@@ -8,6 +8,9 @@ const connectDB = require('./db/connect-db');
 
 app.use(express.json());
 
+app.get('/', (req,res )=> {
+    res.send('Welcome to payments tracker')
+});
 
 const port = process.env.PORT || 8000;
 const start = async () => {

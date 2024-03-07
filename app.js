@@ -6,10 +6,14 @@ const app = express();
 //db
 const connectDB = require('./db/connect-db');
 
-//routes
+//routers
 const paymentRoutes = require('./routes/Payments');
 const driverRoutes = require('./routes/Driver');
 const clientsRoutes = require('./routes/Clients');
+
+//middleware
+const notFoundMiddleware = require('./middleware/not-Found');
+const errorHandlerMiddleware = require('./middleware/error-handler');
 
 app.use(express.json());
 
@@ -20,6 +24,9 @@ app.get('/', (req,res )=> {
 app.use('/api/payments',paymentRoutes);
 app.use('/api/driver',driverRoutes);
 app.use('/api/clients',clientsRoutes);
+
+app.use(notFoundMiddleware);
+app.use(errorHandlerMiddleware);
 
 const port = process.env.PORT || 8000;
 const start = async () => {

@@ -4,6 +4,10 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
+//security packages
+const cors = require('cors');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize')
 //db
 const connectDB = require('./db/connect-db');
 
@@ -16,6 +20,10 @@ const userRoutes = require('./routes/User');
 //middleware
 const notFoundMiddleware = require('./middleware/not-Found');
 const errorHandlerMiddleware = require('./middleware/error-handler');
+
+app.use(helmet());
+app.use(cors());
+app.use(mongoSanitize());
 
 app.use(express.json());
 

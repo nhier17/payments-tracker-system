@@ -6,7 +6,16 @@ const CustomError = require('../errors');
 //create a payment
 const createPayment = async (req, res) => {
     try {
-    const { amount, driverId, clientId } = req.body;
+    const { amount, driverId, clientId,paymentMethod } = req.body;
+    //initialize payment gateaway
+    const paymentGateway = new PaymentGateway();
+    const paymentResponse = await paymentGateway.processPayment({
+        amount,
+        paymentMethod
+    });
+    //handle payment response
+    if (paymentResponse.success) {
+   
     const payment = new Payment({
         amount,
         driverId,
@@ -14,6 +23,9 @@ const createPayment = async (req, res) => {
     });
     await payment.save();
     res.status(StatusCodes.CREATED).json({ payment });
+} else {
+    res.status(StatusCodes.BAD_REQUEST).json({ error: paymentResponse.message });
+}
     } catch (error) {
         res.status(500).json({ error: "Failed to create payment" });
     }
@@ -62,6 +74,8 @@ const deletePayment = async (req, res) => {
         res.status(StatusCodes.NTERNAL_SERVER_ERROR).json({ error: "Failed to delete payment" });
     }
 };
+
+
 
 module.exports = {
     createPayment,
